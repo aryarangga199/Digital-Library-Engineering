@@ -76,7 +76,7 @@
 
     <script>
         // Update URL Script Anda
-        const API_URL = "https://script.google.com/macros/s/AKfycbymkGCidflAq_2-GmPd_iYuKFlG4OQUdmfK2n9KI_UtROqgXSlNx0CU8-4sGmLIDvUF/exec"; 
+        const API_URL = "https://script.google.com/macros/s/AKfycbwspaXdFmXPqdSAPSGjuL-gB_Ahy6lw2_teL-orP4_AvpmCXqnQMZBcbzIs3C3JWUCT/exec"; 
         let LIBRARY_DATA = [];
 
         // LOGIN SYSTEM
@@ -84,8 +84,8 @@
             const u = document.getElementById('userLogin').value;
             const p = document.getElementById('passLogin').value;
             // Username & Password dirubah menjadi aresteknik
-            if(u === "aresteknik" && p === "aresteknik") {
-                sessionStorage.setItem("isLoggedInAres", "true");
+            if(u === "teknik" && p === "teknik") {
+                sessionStorage.setItem("isLoggedIn", "true");
                 showApp();
             } else {
                 const err = document.getElementById('loginError');
