@@ -19,7 +19,7 @@
             <div class="text-center mb-8">
                 <span class="text-5xl">🛠️</span>
                 <h2 class="text-2xl font-bold mt-4">Login Engineering Library</h2>
-                <p class="text-slate-500 text-xs mt-2 uppercase tracking-widest">system by: Arya Rangga</p>
+                <p class="text-slate-500 text-xs mt-2 uppercase tracking-widest">system by: Ares Teknik</p>
             </div>
             <div class="space-y-4">
                 <input type="text" id="userLogin" placeholder="Username" class="w-full bg-slate-100 dark:bg-slate-700 p-4 rounded-xl outline-none ring-blue-500 focus:ring-2">
@@ -33,8 +33,8 @@
     <div id="main-content" class="hidden max-w-6xl mx-auto p-4 md:p-8">
         <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
             <div>
-                <h1 class="text-3xl font-black bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-emerald-400">ENGINEERING DIGITAL LIBRARY</h1>
-                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.3em]">Digital Archive System By: Arya Rangga</p>
+                <h1 class="text-3xl font-black bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-emerald-400">ARES TEKNIK LIBRARY</h1>
+                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.3em]">Digital Archive System</p>
             </div>
             <div class="flex flex-wrap gap-2">
                 <button onclick="openUpload()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold">+ UPLOAD FILE</button>
@@ -45,12 +45,12 @@
 
         <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-xl border border-slate-200 dark:border-slate-700 mb-8">
             <div class="relative mb-6">
-                <input type="text" id="searchInput" onkeyup="searchFile()" placeholder="Cari dokumen (misal: Manual, Wiring, SOP)..." 
+                <input type="text" id="searchInput" onkeyup="searchFile()" placeholder="Cari dokumen..." 
                     class="w-full bg-slate-100 dark:bg-slate-900/50 p-4 pl-12 rounded-2xl outline-none border border-transparent focus:border-blue-500 transition-all">
                 <span class="absolute left-4 top-4 opacity-30">🔍</span>
             </div>
             <div id="folder-chips" class="flex flex-wrap gap-2">
-                <button onclick="filterFolder('ALL')" class="px-5 py-2.5 bg-blue-600 text-white rounded-full text-[10px] font-black uppercase tracking-wider transition-all">📁 ALL DOKUMEN</button>
+                <button data-category="ALL" onclick="filterFolder('ALL')" class="folder-btn px-5 py-2.5 bg-blue-600 text-white rounded-full text-[10px] font-black uppercase tracking-wider transition-all">📁 ALL DOKUMEN</button>
             </div>
         </div>
 
@@ -65,7 +65,7 @@
             <div class="space-y-4">
                 <select id="targetFolder" class="w-full bg-slate-100 dark:bg-slate-700 p-3 rounded-xl outline-none border border-slate-600"></select>
                 <input type="file" id="fileInput" class="w-full text-xs text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:bg-blue-600 file:text-white border-none">
-                <input type="text" id="newName" placeholder="Nama dokumen (misal: Manual_Mesin_CNC)" class="w-full bg-slate-100 dark:bg-slate-700 p-3 rounded-xl outline-none">
+                <input type="text" id="newName" placeholder="Nama dokumen baru" class="w-full bg-slate-100 dark:bg-slate-700 p-3 rounded-xl outline-none">
                 <div class="flex gap-3 pt-4">
                     <button onclick="closeUpload()" class="flex-1 py-3 rounded-xl font-bold bg-slate-200 dark:bg-slate-600 text-xs">BATAL</button>
                     <button onclick="prosesUpload()" id="btnDoUpload" class="flex-1 py-3 rounded-xl font-bold bg-blue-600 text-white text-xs uppercase tracking-widest">Mulai Upload</button>
@@ -75,17 +75,14 @@
     </div>
 
     <script>
-        // Update URL Script Anda
         const API_URL = "https://script.google.com/macros/s/AKfycbwspaXdFmXPqdSAPSGjuL-gB_Ahy6lw2_teL-orP4_AvpmCXqnQMZBcbzIs3C3JWUCT/exec"; 
         let LIBRARY_DATA = [];
 
-        // LOGIN SYSTEM
         function handleLogin() {
             const u = document.getElementById('userLogin').value;
             const p = document.getElementById('passLogin').value;
-            // Username & Password dirubah menjadi aresteknik
-            if(u === "teknik" && p === "teknik") {
-                sessionStorage.setItem("isLoggedIn", "true");
+            if(u === "aresteknik" && p === "aresteknik") {
+                sessionStorage.setItem("isLoggedInAres", "true");
                 showApp();
             } else {
                 const err = document.getElementById('loginError');
@@ -109,7 +106,6 @@
             if(sessionStorage.getItem("isLoggedInAres") === "true") showApp();
         }
 
-        // FETCH DATA
         async function fetchData() {
             try {
                 const res = await fetch(API_URL);
@@ -117,16 +113,15 @@
                 renderLibrary(LIBRARY_DATA);
                 renderFolderChips();
             } catch (e) { 
-                console.error("Error Fetch:", e); 
-                document.getElementById('library-container').innerHTML = "<p class='col-span-full text-center text-red-500'>Gagal terhubung ke Google Drive. Periksa koneksi.</p>";
+                document.getElementById('library-container').innerHTML = "<p class='col-span-full text-center text-red-500'>Gagal terhubung ke Drive.</p>";
             }
         }
 
         function renderFolderChips() {
             const container = document.getElementById('folder-chips');
-            container.innerHTML = `<button onclick="filterFolder('ALL')" class="px-5 py-2.5 bg-blue-600 text-white rounded-full text-[10px] font-black uppercase">📁 ALL</button>`;
+            container.innerHTML = `<button data-category="ALL" onclick="filterFolder('ALL')" class="folder-btn px-5 py-2.5 bg-blue-600 text-white rounded-full text-[10px] font-black uppercase transition-all">📁 ALL DOKUMEN</button>`;
             LIBRARY_DATA.forEach(f => {
-                container.innerHTML += `<button onclick="filterFolder('${f.folderName}')" class="px-5 py-2.5 bg-slate-200 dark:bg-slate-700 hover:bg-blue-500 hover:text-white rounded-full text-[10px] font-black uppercase transition-all">${f.folderName}</button>`;
+                container.innerHTML += `<button data-category="${f.folderName}" onclick="filterFolder('${f.folderName}')" class="folder-btn px-5 py-2.5 bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-white rounded-full text-[10px] font-black uppercase transition-all">${f.folderName}</button>`;
             });
         }
 
@@ -136,44 +131,43 @@
             data.forEach(folder => {
                 folder.files.forEach(file => {
                     container.innerHTML += `
-                        <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 group transition-all hover:shadow-lg" data-folder="${folder.folderName}" data-name="${file.name.toLowerCase()}">
+                        <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700" data-folder="${folder.folderName}" data-name="${file.name.toLowerCase()}">
                             <div class="flex justify-between items-start mb-3">
                                 <span class="px-2 py-1 bg-blue-500/10 text-blue-500 text-[8px] font-black rounded uppercase">${folder.folderName}</span>
                                 <button onclick="hapusFile('${file.id}')" class="text-slate-400 hover:text-red-500 transition">🗑️</button>
                             </div>
                             <h3 class="font-bold text-sm mb-6 line-clamp-2 h-10">${file.name}</h3>
-                            <a href="${file.url}" target="_blank" class="block w-full bg-slate-100 dark:bg-slate-700 text-center py-2.5 rounded-lg text-[10px] font-bold hover:bg-blue-600 hover:text-white transition-all uppercase tracking-widest">Buka Dokumen</a>
+                            <a href="${file.url}" target="_blank" class="block w-full bg-slate-100 dark:bg-slate-700 text-center py-2.5 rounded-lg text-[10px] font-bold hover:bg-blue-600 hover:text-white transition-all uppercase">Buka Dokumen</a>
                         </div>`;
                 });
             });
         }
 
-        // SEARCH & FILTER
-        function searchFile() {
-                    const val = document.getElementById('searchInput').value.toLowerCase();
-                    document.querySelectorAll('#library-container > div').forEach(card => {
-                        card.style.display = card.getAttribute('data-name').includes(val) ? "block" : "none";
-                    });
-                }
-        
         function filterFolder(name) {
             document.querySelectorAll('#library-container > div').forEach(card => {
                 card.style.display = (name === 'ALL' || card.getAttribute('data-folder') === name) ? "block" : "none";
             });
-                    
-            const allButtons = document.querySelectorAll('#folder-chips button');
-            allButtons.forEach(btn => {
-                if (btn.innerText.includes(name)) {
-                    btn.classList.remove('bg-slate-200', 'dark:bg-slate-700');
-                    btn.classList.add('bg-blue-600', 'text-white');
+
+            document.querySelectorAll('.folder-btn').forEach(btn => {
+                if (btn.getAttribute('data-category') === name) {
+                    btn.classList.replace('bg-slate-200', 'bg-blue-600');
+                    btn.classList.replace('dark:bg-slate-700', 'bg-blue-600');
+                    btn.classList.add('text-white');
                 } else {
-                    btn.classList.remove('bg-blue-600', 'text-white');
-                    btn.classList.add('bg-slate-200', 'dark:bg-slate-700');
+                    btn.classList.replace('bg-blue-600', 'bg-slate-200');
+                    btn.classList.add('dark:bg-slate-700', 'text-slate-900', 'dark:text-white');
+                    if(btn.getAttribute('data-category') !== 'ALL') btn.classList.remove('text-white');
                 }
             });
         }
 
-        // Upload dan Delete
+        function searchFile() {
+            const val = document.getElementById('searchInput').value.toLowerCase();
+            document.querySelectorAll('#library-container > div').forEach(card => {
+                card.style.display = card.getAttribute('data-name').includes(val) ? "block" : "none";
+            });
+        }
+
         function openUpload() {
             const select = document.getElementById('targetFolder');
             select.innerHTML = LIBRARY_DATA.map(f => `<option value="${f.folderId}">${f.folderName}</option>`).join('');
@@ -187,19 +181,15 @@
             const folderId = document.getElementById('targetFolder').value;
             const newName = document.getElementById('newName').value || (file ? file.name : "");
             const btn = document.getElementById('btnDoUpload');
-
-            if(!file) return alert("Pilih file terlebih dahulu!");
+            if(!file) return alert("Pilih file!");
             btn.disabled = true; btn.innerText = "SEDANG MENGUNGGAH...";
-
             const reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = async () => {
-                const payload = { action: "upload", folderId, newName, fileData: reader.result };
                 try {
-                    await fetch(API_URL, { method: "POST", body: JSON.stringify(payload) });
-                    alert("Upload Berhasil!");
+                    await fetch(API_URL, { method: "POST", body: JSON.stringify({ action: "upload", folderId, newName, fileData: reader.result }) });
                     location.reload();
-                } catch(e) { alert("Gagal Upload"); btn.disabled = false; btn.innerText = "Mulai Upload"; }
+                } catch(e) { alert("Gagal"); btn.disabled = false; }
             };
         }
 
