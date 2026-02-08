@@ -150,19 +150,30 @@
 
         // SEARCH & FILTER
         function searchFile() {
-            const val = document.getElementById('searchInput').value.toLowerCase();
-            document.querySelectorAll('#library-container > div').forEach(card => {
-                card.style.display = card.getAttribute('data-name').includes(val) ? "block" : "none";
-            });
-        }
-
+                    const val = document.getElementById('searchInput').value.toLowerCase();
+                    document.querySelectorAll('#library-container > div').forEach(card => {
+                        card.style.display = card.getAttribute('data-name').includes(val) ? "block" : "none";
+                    });
+                }
+        
         function filterFolder(name) {
             document.querySelectorAll('#library-container > div').forEach(card => {
                 card.style.display = (name === 'ALL' || card.getAttribute('data-folder') === name) ? "block" : "none";
             });
+                    
+            const allButtons = document.querySelectorAll('#folder-chips button');
+            allButtons.forEach(btn => {
+                if (btn.innerText.includes(name)) {
+                    btn.classList.remove('bg-slate-200', 'dark:bg-slate-700');
+                    btn.classList.add('bg-blue-600', 'text-white');
+                } else {
+                    btn.classList.remove('bg-blue-600', 'text-white');
+                    btn.classList.add('bg-slate-200', 'dark:bg-slate-700');
+                }
+            });
         }
 
-        // UPLOAD & DELETE
+        // Upload dan Delete
         function openUpload() {
             const select = document.getElementById('targetFolder');
             select.innerHTML = LIBRARY_DATA.map(f => `<option value="${f.folderId}">${f.folderName}</option>`).join('');
