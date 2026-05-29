@@ -230,7 +230,7 @@
     </div>
 
     <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycbx36RpR8zwWsN3vdyQyOhLixPnW69Lbe5qtwhZuQ8a4ANZ-CN8KXWNtloptRbOwxJVC/exec"; 
+        const API_URL = "https://script.google.com/macros/s/AKfycbzMxktvXJROTUfbkns6c5aS8549xesIwwYYNEi8Or77Vc_YyqfwuvB1Jougz_2gj3x5/exec"; 
         let LIBRARY_DATA = [];
         let CURRENT_SORT_ORDER = 'ASC'; 
         let ACTIVE_CATEGORY = 'ALL';
@@ -264,7 +264,7 @@
                 body.classList.replace('dark', 'light');
             } else {
                 html.classList.replace('light', 'dark');
-                body.classList.replace('light', 'dark');
+                body.classList.replace('dark', 'dark');
             }
         }
 
@@ -329,24 +329,26 @@
 
             const fileStatEl = document.getElementById('stat-total-files');
             const catStatEl = document.getElementById('stat-total-folders');
-            fileStatEl.setAttribute('data-target', totalFiles);
-            catStatEl.setAttribute('data-target', totalCats);
+            if(fileStatEl) fileStatEl.setAttribute('data-target', totalFiles);
+            if(catStatEl) catStatEl.setAttribute('data-target', totalCats);
             
             triggerStatsAnimation();
 
             const statsBarContainer = document.getElementById('category-stats-bars');
-            const maxCount = Math.max(...categoryStats.map(c => c.count), 1);
-            statsBarContainer.innerHTML = categoryStats.map(cat => `
-                <div class="space-y-1">
-                    <div class="flex justify-between text-[8px] font-bold uppercase tracking-widest opacity-70">
-                        <span>${cat.name}</span>
-                        <span class="text-blue-500">${cat.count} Files</span>
+            if (statsBarContainer && categoryStats.length > 0) {
+                const maxCount = Math.max(...categoryStats.map(c => c.count), 1);
+                statsBarContainer.innerHTML = categoryStats.map(cat => `
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-[8px] font-bold uppercase tracking-widest opacity-70">
+                            <span>${cat.name}</span>
+                            <span class="text-blue-500">${cat.count} Files</span>
+                        </div>
+                        <div class="w-full bg-slate-200 dark:bg-white/5 h-1.5 rounded-full overflow-hidden">
+                            <div class="bg-blue-500 h-full rounded-full transition-all duration-1000 shadow-[0_0_8px_rgba(59,130,246,0.5)]" style="width: ${(cat.count/maxCount)*100}%"></div>
+                        </div>
                     </div>
-                    <div class="w-full bg-slate-200 dark:bg-white/5 h-1.5 rounded-full overflow-hidden">
-                        <div class="bg-blue-500 h-full rounded-full transition-all duration-1000 shadow-[0_0_8px_rgba(59,130,246,0.5)]" style="width: ${(cat.count/maxCount)*100}%"></div>
-                    </div>
-                </div>
-            `).join('');
+                `).join('');
+            }
 
             const sortedRecent = [...allFilesGlobal].sort((a, b) => {
                 const dateA = a.date ? new Date(a.date) : new Date(0);
@@ -355,34 +357,37 @@
             }).slice(0, 5);
 
             const recentList = document.getElementById('recent-files-list');
-            if(sortedRecent.length === 0) {
-                recentList.innerHTML = `<li class="text-[10px] font-bold opacity-40 text-center">No documents found.</li>`;
-                return;
-            }
+            if(recentList) {
+                if(sortedRecent.length === 0) {
+                    recentList.innerHTML = `<li class="text-[10px] font-bold opacity-40 text-center">No documents found.</li>`;
+                    return;
+                }
 
-            recentList.innerHTML = sortedRecent.map(f => {
-                const uploadDate = f.date ? new Date(f.date) : new Date();
-                const dStr = uploadDate.toLocaleDateString('id-ID', { day: '2-digit', month: 'short' });
-                const tStr = uploadDate.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+                recentList.innerHTML = sortedRecent.map(f => {
+                    const uploadDate = f.date ? new Date(f.date) : new Date();
+                    const dStr = uploadDate.toLocaleDateString('id-ID', { day: '2-digit', month: 'short' });
+                    const tStr = uploadDate.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
 
-                return `
-                <li class="flex items-center justify-between group">
-                    <div class="flex-1 min-w-0 pr-4">
-                        <p class="text-[10px] font-black truncate text-slate-700 dark:text-slate-200 group-hover:text-blue-500 transition-colors">${f.name}</p>
-                        <div class="flex items-center gap-2 mt-0.5">
-                            <span class="text-[7px] font-bold text-blue-500 uppercase">${f.folderName}</span>
-                            <span class="text-[7px] opacity-40 font-bold uppercase">${dStr} • ${tStr}</span>
+                    return `
+                    <li class="flex items-center justify-between group">
+                        <div class="flex-1 min-w-0 pr-4">
+                            <p class="text-[10px] font-black truncate text-slate-700 dark:text-slate-200 group-hover:text-blue-500 transition-colors">${f.name}</p>
+                            <div class="flex items-center gap-2 mt-0.5">
+                                <span class="text-[7px] font-bold text-blue-500 uppercase">${f.folderName}</span>
+                                <span class="text-[7px] opacity-40 font-bold uppercase">${dStr} • ${tStr}</span>
+                            </div>
                         </div>
-                    </div>
-                    <a href="${f.url}" target="_blank" class="text-[8px] font-black bg-blue-500/10 text-blue-600 px-2 py-1.5 rounded-lg whitespace-nowrap hover:bg-blue-600 hover:text-white transition-all">
-                        VIEW ➜
-                    </a>
-                </li>`;
-            }).join('');
+                        <button onclick="openPreview('${f.url}', '${f.name.replace(/'/g, "\\'")}')" class="text-[8px] font-black bg-blue-500/10 text-blue-600 px-2 py-1.5 rounded-lg whitespace-nowrap hover:bg-blue-600 hover:text-white transition-all">
+                            PREVIEW ➜
+                        </button>
+                    </li>`;
+                }).join('');
+            }
         }
 
         function renderFolderChips() {
             const container = document.getElementById('folder-chips');
+            if(!container) return;
             container.innerHTML = `<button data-category="ALL" onclick="filterFolder('ALL')" class="folder-btn px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-wider transition-all bg-blue-600 text-white shadow-md shrink-0">📁 ALL</button>`;
             LIBRARY_DATA.forEach(f => {
                 container.innerHTML += `<button data-category="${f.folderName}" onclick="filterFolder('${f.folderName}')" class="folder-btn px-4 py-2 rounded-xl text-[10px] font-black uppercase transition-all glass text-slate-600 dark:text-slate-400 hover:text-blue-500 hover:bg-blue-500/10 shrink-0">${f.folderName}</button>`;
@@ -391,6 +396,7 @@
 
         function renderLibrary(data) {
             const container = document.getElementById('library-container');
+            if(!container) return;
             container.innerHTML = "";
             
             let flattenedFiles = [];
@@ -428,7 +434,7 @@
 
                 container.innerHTML += `
                     <div class="doc-card card-animate group relative glass glass-glow p-4 rounded-2xl border border-transparent transition-all flex flex-col md:flex-row md:items-center justify-between gap-4 w-full" 
-                         data-folder="${file.folderName}" data-name="${nameLower}">
+                        data-folder="${file.folderName}" data-name="${nameLower}">
                         
                         <div class="flex items-center gap-4 flex-1 min-w-0">
                             <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-900 group-hover:bg-blue-600 group-hover:rotate-6 transition-all duration-300 shadow-inner">
@@ -475,8 +481,13 @@
             searchFile();
         }
 
+        // ====================================================================
+        // PERBAIKAN UTAMA: Manajemen Ekstraksi & Pratinjau PDF / WORD Lebih Kuat
+        // ====================================================================
         function openPreview(url, name) {
             let embedUrl = url;
+            const nameLower = name.toLowerCase();
+
             try {
                 let fileId = "";
                 if (url.includes('/file/d/')) {
@@ -487,7 +498,17 @@
                 }
 
                 if (fileId) {
-                    embedUrl = `https://docs.google.com/viewer?srcid=${fileId}&pid=explorer&efh=false&a=v&chrome=false&embedded=true`;
+                    if (nameLower.endsWith('.doc') || nameLower.endsWith('.docx')) {
+                        // Jika Word: Lempar ke Microsoft Office Live Viewer
+                        let directDownloadUrl = `https://docs.google.com/uc?export=download&id=${fileId}`;
+                        embedUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(directDownloadUrl)}`;
+                    } else if (nameLower.endsWith('.pdf')) {
+                        // JIKA PDF: Pakai URL Pratinjau bawaan Drive yang stabil
+                        embedUrl = `https://drive.google.com/file/d/${fileId}/preview`;
+                    } else {
+                        // Gambar / Video: Tetap gunakan Google Docs Viewer
+                        embedUrl = `https://docs.google.com/viewer?srcid=${fileId}&embedded=true`;
+                    }
                 }
             } catch (err) {
                 console.error("Error parsing preview URL:", err);
@@ -523,7 +544,8 @@
         }
 
         function applyVisualFilter() {
-            const searchVal = document.getElementById('searchInput').value.toLowerCase();
+            const searchInputEl = document.getElementById('searchInput');
+            const searchVal = searchInputEl ? searchInputEl.value.toLowerCase() : "";
             const cards = document.querySelectorAll('.doc-card');
 
             cards.forEach(card => {
@@ -536,6 +558,104 @@
                     card.classList.add('hidden');
                 }
             });
+        }
+
+        // ====================================================================
+        // TAMBAHAN FITUR: Fungsi Upload dan Hapus yang Sesuai dengan Apps Script-mu
+        // ====================================================================
+        function openUpload() {
+            const select = document.getElementById('targetFolder');
+            if (!select) return;
+            if (LIBRARY_DATA.length === 0) {
+                alert("Data belum siap. Mohon tunggu koneksi cloud.");
+                return;
+            }
+            select.innerHTML = LIBRARY_DATA.map(f => `<option value="${f.folderId}">${f.folderName}</option>`).join('');
+            document.getElementById('uploadModal').classList.remove('hidden');
+        }
+
+        function closeUpload() {
+            document.getElementById('uploadModal').classList.add('hidden');
+            document.getElementById('fileInput').value = "";
+            document.getElementById('newName').value = "";
+        }
+
+        function prosesUpload() {
+            const folderId = document.getElementById('targetFolder').value;
+            const fileInput = document.getElementById('fileInput');
+            const newNameInput = document.getElementById('newName');
+            const btnUpload = document.getElementById('btnDoUpload');
+
+            const file = fileInput.files[0];
+            let newName = newNameInput.value.trim();
+
+            if (!file || !newName) {
+                alert("Lengkapi file dan nama dokumen!");
+                return;
+            }
+
+            // Amankan ekstensi file asli agar tidak terduplikasi atau hilang
+            const extension = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
+            if (!newName.toLowerCase().endsWith(extension)) {
+                newName = newName + extension;
+            }
+
+            if(btnUpload) {
+                btnUpload.disabled = true;
+                btnUpload.innerText = "UPLOADING...";
+            }
+
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function (e) {
+                const payload = {
+                    action: "upload",
+                    folderId: folderId,
+                    newName: newName,
+                    fileData: e.target.result
+                };
+
+                fetch(API_URL, {
+                    method: "POST",
+                    body: JSON.stringify(payload)
+                })
+                .then(res => res.text())
+                .then(response => {
+                    if (response.trim() === "Success") {
+                        alert("File sukses terunggah!");
+                        closeUpload();
+                        fetchData();
+                    } else {
+                        alert("Respon server: " + response);
+                    }
+                })
+                .catch(err => alert("Koneksi gagal: " + err))
+                .finally(() => {
+                    if(btnUpload) {
+                        btnUpload.disabled = false;
+                        btnUpload.innerText = "MULAI UPLOAD";
+                    }
+                });
+            };
+        }
+
+        function hapusFile(idFile) {
+            if (!confirm("Apakah Anda yakin ingin menghapus file ini?")) return;
+
+            fetch(API_URL, {
+                method: "POST",
+                body: JSON.stringify({ action: "delete", fileId: idFile })
+            })
+            .then(res => res.text())
+            .then(response => {
+                if (response.trim() === "Deleted") {
+                    alert("File berhasil dihapus!");
+                    fetchData();
+                } else {
+                    alert("Gagal menghapus: " + response);
+                }
+            })
+            .catch(err => alert("Kesalahan sistem: " + err));
         }
     </script>
 </body>
