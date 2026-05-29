@@ -490,6 +490,7 @@
 
             try {
                 let fileId = "";
+                // Ekstraksi ID File dari URL Google Drive
                 if (url.includes('/file/d/')) {
                     fileId = url.split('/file/d/')[1].split('/')[0];
                 } else if (url.includes('id=')) {
@@ -498,15 +499,24 @@
                 }
 
                 if (fileId) {
+                    // 1. JIKA FILE ADALAH MS WORD (.doc / .docx)
                     if (nameLower.endsWith('.doc') || nameLower.endsWith('.docx')) {
-                        // Jika Word: Lempar ke Microsoft Office Live Viewer
                         let directDownloadUrl = `https://docs.google.com/uc?export=download&id=${fileId}`;
                         embedUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(directDownloadUrl)}`;
-                    } else if (nameLower.endsWith('.pdf')) {
-                        // JIKA PDF: Pakai URL Pratinjau bawaan Drive yang stabil
+                    } 
+                    // 2. JIKA FILE ADALAH PDF ATAU VIDEO (.mp4, .mkv, .avi, dll)
+                    else if (
+                        nameLower.endsWith('.pdf') || 
+                        nameLower.endsWith('.mp4') || 
+                        nameLower.endsWith('.mkv') || 
+                        nameLower.endsWith('.avi') ||
+                        nameLower.endsWith('.mov')
+                    ) {
+                        // Menggunakan native preview Drive (Sangat stabil untuk PDF & Media Video)
                         embedUrl = `https://drive.google.com/file/d/${fileId}/preview`;
-                    } else {
-                        // Gambar / Video: Tetap gunakan Google Docs Viewer
+                    } 
+                    // 3. JIKA FILE ADALAH GAMBAR ATAU FORMAT LAINNYA
+                    else {
                         embedUrl = `https://docs.google.com/viewer?srcid=${fileId}&embedded=true`;
                     }
                 }
@@ -514,11 +524,13 @@
                 console.error("Error parsing preview URL:", err);
             }
 
+            // Set src iframe ke URL yang sudah disesuaikan format filenya
             document.getElementById('previewTitle').innerText = `PREVIEW: ${name}`;
             document.getElementById('previewFrame').src = embedUrl;
             document.getElementById('previewModal').classList.remove('hidden');
         }
 
+        // Fungsi Tambahan untuk Menutup Modal Preview dan Me-reset iFrame src
         function closePreview() {
             document.getElementById('previewModal').classList.add('hidden');
             document.getElementById('previewFrame').src = "";
