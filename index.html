@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Engineering Library - Ares Teknik</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>    
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = { 
             darkMode: 'class',
@@ -30,45 +30,83 @@
             }
         }
     </script>
-    <style>
-        .custom-scrollbar::-webkit-scrollbar { width: 5px; height: 5px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 10px; }
-        
+   <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #3b82f6;
+            border-radius: 10px;
+        }
+
         .animated-bg {
             background-size: 400% 400%;
             animation: gradient-slow 15s ease infinite;
         }
-        html.dark body.animated-bg { background: linear-gradient(-45deg, #0f172a, #1e293b, #0f172a, #171717); }
-        html.light body.animated-bg { background: linear-gradient(-45deg, #f8fafc, #f1f5f9, #e2e8f0, #f8fafc); }
 
-        .glass { 
-            backdrop-filter: blur(12px); 
-            -webkit-backdrop-filter: blur(12px); 
+        html.dark body.animated-bg {
+            background: linear-gradient(-45deg, #0f172a, #1e293b, #0f172a, #171717);
         }
-        html.dark .glass { 
-            background: rgba(30, 41, 59, 0.4); 
-            border: 1px solid rgba(255, 255, 255, 0.1); 
+
+        html.light body.animated-bg {
+            background: linear-gradient(-45deg, #f8fafc, #f1f5f9, #e2e8f0, #f8fafc);
+        }
+
+        html.light {
+            --text-primary: #1e293b;
+            --text-secondary: #475569;
+        }
+
+        html.dark {
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+        }
+
+        body {
+            color: var(--text-primary);
+        }
+
+        .text-muted {
+            color: var(--text-secondary);
+        }
+
+        .glass {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        html.dark .glass {
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
         }
-        html.light .glass { 
-            background: rgba(255, 255, 255, 0.6); 
-            border: 1px solid rgba(255, 255, 255, 0.4); 
-            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.07); 
+
+        html.light .glass {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
         }
 
         .glass-glow {
             position: relative;
             overflow: hidden;
         }
+
         .glass-glow::after {
             content: "";
             position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             border-radius: inherit;
             pointer-events: none;
             box-shadow: inset 0 0 15px rgba(59, 130, 246, 0.1);
             transition: box-shadow 0.3s ease;
         }
+
         .glass-glow:hover::after {
             box-shadow: inset 0 0 25px rgba(59, 130, 246, 0.2);
         }
@@ -81,17 +119,29 @@
             animation: shimmer 5s linear infinite;
         }
 
-        .doc-card { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .doc-card:hover {
-            transform: translateY(-4px) scale(1.01);
-            box-shadow: 0 20px 40px -15px rgba(59, 130, 246, 0.3);
-            border-color: rgba(59, 130, 246, 0.5);
+        .card-animate {
+            animation: slideUp 0.5s ease-out forwards;
         }
 
-        .card-animate { animation: slideUp 0.6s ease-out forwards; }
         @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        html.light * {
+            color: var(--text-primary) !important;
+        }
+
+        html.light .text-muted,
+        html.light .text-slate-500,
+        html.light .text-slate-400 {
+            color: var(--text-secondary) !important;
         }
     </style>
 </head>
@@ -99,10 +149,8 @@
 
     <div id="login-overlay" class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/90 dark:bg-slate-950/95 backdrop-blur-2xl p-4 transition-all">
         <button onclick="toggleTheme()" class="absolute top-6 right-6 p-3 glass rounded-full hover:scale-110 transition-transform">🌓</button>
-        
         <div class="bg-white dark:bg-slate-800 w-full max-w-md p-10 rounded-[2.5rem] shadow-2xl relative overflow-hidden group border border-slate-200 dark:border-slate-700">
             <div class="absolute -top-20 -right-20 w-40 h-40 bg-blue-600/10 rounded-full blur-3xl transition-all"></div>
-            
             <div class="text-center mb-8 relative">
                 <div class="w-20 h-20 bg-blue-600 dark:bg-blue-500 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-2xl shadow-blue-500/40 rotate-3 group-hover:rotate-12 transition-all duration-500">
                     <span class="text-4xl text-white">🛠️</span>
@@ -110,10 +158,9 @@
                 <h2 class="text-2xl font-extrabold tracking-tight text-slate-800 dark:text-white">Login Engineering Library</h2>
                 <p class="text-slate-500 dark:text-slate-400 text-[10px] mt-2 uppercase tracking-[0.2em] font-bold">system by: TEKNIK</p>
             </div>
-            
             <div class="space-y-4 relative">
-                <input type="text" id="userLogin" placeholder="Username" class="w-full bg-slate-100 dark:bg-slate-900/50 p-4 rounded-2xl outline-none ring-blue-500/40 focus:ring-4 border border-slate-200 dark:border-white/5 transition-all text-sm text-slate-900 dark:text-white font-semibold">
-                <input type="password" id="passLogin" placeholder="Password" class="w-full bg-slate-100 dark:bg-slate-900/50 p-4 rounded-2xl outline-none ring-blue-500/40 focus:ring-4 border border-slate-200 dark:border-white/5 transition-all text-sm text-slate-900 dark:text-white font-semibold">
+                <input type="text" id="userLogin" placeholder="Username" class="w-full bg-slate-100 dark:bg-slate-900/50 p-4 rounded-2xl outline-none ring-blue-500/40 focus:ring-4 border border-slate-200 dark:border-white/5 transition-all text-sm font-semibold">
+                <input type="password" id="passLogin" placeholder="Password" class="w-full bg-slate-100 dark:bg-slate-900/50 p-4 rounded-2xl outline-none ring-blue-500/40 focus:ring-4 border border-slate-200 dark:border-white/5 transition-all text-sm font-semibold">
                 <button onclick="handleLogin()" class="w-full bg-blue-600 hover:bg-blue-500 text-white py-4 rounded-2xl font-bold uppercase tracking-[0.2em] shadow-lg shadow-blue-500/40 transition-all active:scale-95">Enter System</button>
                 <p id="loginError" class="text-red-500 text-center text-xs font-bold hidden animate-bounce">Akses Ditolak!</p>
             </div>
@@ -130,13 +177,14 @@
                 </div>
             </div>
             <div class="flex flex-wrap gap-3">
-                <button onclick="openUpload()" class="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl text-[10px] font-black tracking-widest transition-all shadow-lg active:scale-95 hover:shadow-emerald-500/30">+ UPLOAD FILE</button>
-                <button onclick="toggleTheme()" class="px-6 py-3 glass glass-glow rounded-2xl text-[10px] font-black tracking-widest transition-all active:scale-95 text-slate-800 dark:text-white">🌓 MODE</button>
+                <button onclick="openCreateFolder()" class="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl text-[10px] font-black tracking-widest transition-all shadow-lg active:scale-95">+ FOLDER BARU</button>
+                <button onclick="openUpload()" class="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl text-[10px] font-black tracking-widest transition-all shadow-lg active:scale-95">+ UPLOAD FILE</button>
+                <button onclick="toggleTheme()" class="px-6 py-3 glass rounded-2xl text-[10px] font-black tracking-widest transition-all active:scale-95 text-slate-800 dark:text-white">🌓</button>
                 <button onclick="handleLogout()" class="px-6 py-3 bg-red-500/10 text-red-600 dark:text-red-400 hover:bg-red-500 hover:text-white rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all">Logout</button>
             </div>
         </header>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
             <div class="lg:col-span-2 glass glass-glow p-8 rounded-[2.5rem]">
                 <div class="flex justify-between items-center mb-6">
                     <h3 class="text-[10px] font-black uppercase tracking-widest text-blue-500">Library Overview</h3>
@@ -159,11 +207,10 @@
                         </div>
                         <div class="border-l border-slate-200 dark:border-white/10 pl-10">
                             <p id="stat-total-folders" class="counter text-4xl font-black text-emerald-600 dark:text-emerald-400 transition-colors duration-300" data-target="0">0</p>
-                            <p class="text-[10px] uppercase font-bold opacity-50 tracking-wider">Kategori</p>
+                            <p class="text-[10px] uppercase font-bold opacity-50 tracking-wider">Total Folder</p>
                         </div>
                     </div>
-                    <div id="category-stats-bars" class="space-y-3 max-h-32 overflow-y-auto custom-scrollbar pr-2">
-                        </div>
+                    <div id="category-stats-bars" class="space-y-3 max-h-32 overflow-y-auto custom-scrollbar pr-2"></div>
                 </div>
             </div>
             
@@ -171,79 +218,104 @@
                 <h3 class="text-[10px] font-black uppercase tracking-widest text-emerald-500 mb-4 flex items-center gap-2">
                     <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span> 5 File Terbaru Global
                 </h3>
-                <ul id="recent-files-list" class="space-y-4">
+                <ul id="recent-files-list" class="space-y-3">
                     <li class="text-[10px] font-bold opacity-40 animate-pulse text-center py-4">Syncing recent data...</li>
                 </ul>
             </div>
         </div>
 
-        <div class="glass p-4 rounded-[2.5rem] mb-8 space-y-4">
+        <div class="glass p-4 rounded-[2.5rem] mb-10 space-y-4">
             <div class="flex flex-col sm:flex-row gap-3">
                 <div class="relative flex-1 group">
-                    <input type="text" id="searchInput" onkeyup="searchFile()" placeholder="Cari dokumen teknis..." 
+                    <input type="text" id="searchInput" onkeyup="searchLocal()" placeholder="Cari dokumen..." 
                         class="w-full bg-white dark:bg-slate-950/40 p-4 pl-12 rounded-2xl outline-none text-sm font-bold border border-slate-200 dark:border-transparent focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all text-slate-800 dark:text-white">
-                    <span class="absolute left-5 top-4 opacity-40 text-lg group-focus-within:opacity-100 transition-opacity">🔍</span>
+                    <span class="absolute left-5 top-4 opacity-40 text-lg">🔍</span>
                 </div>
-                <button onclick="toggleSortOrder()" id="btnSort" class="px-5 py-4 bg-white dark:bg-slate-950/40 border border-slate-200 dark:border-transparent hover:border-blue-500 text-xs font-black rounded-2xl transition-all text-slate-800 dark:text-white whitespace-nowrap flex items-center justify-center gap-2 shadow-sm min-w-[140px]">
-                    <span>Sort: A-Z</span> <span id="sortIcon">🔽</span>
+                
+                <button onclick="toggleViewMode()" id="btnViewMode" class="px-5 py-4 bg-blue-600 hover:bg-blue-500 text-white text-[11px] font-black rounded-2xl transition-all shadow-lg flex items-center justify-center gap-2 min-w-[200px]">
+                    📄 SEMUA DOKUMEN
+                </button>
+
+                <button onclick="toggleSortOrder()" id="btnSort" class="px-5 py-4 bg-white dark:bg-slate-950/40 border border-slate-200 dark:border-transparent hover:border-blue-500 text-[11px] font-black rounded-2xl transition-all flex items-center justify-center gap-2">
+                    <span id="sortText">Sort: A-Z</span>
                 </button>
             </div>
             
-            <div class="border-t border-slate-200/60 dark:border-white/5 pt-3">
-                <div class="flex items-center gap-2 overflow-x-auto pb-1 custom-scrollbar" id="folder-chips">
+            <div class="border-t border-slate-200/60 dark:border-white/5 pt-3 flex items-center justify-between">
+                <div class="flex items-center gap-2 overflow-x-auto pb-1 custom-scrollbar text-[10px] font-black tracking-wider uppercase flex-1" id="breadcrumb-container">
                     </div>
+                
+                <button onclick="navigateBack()" id="btnBack" class="hidden px-4 py-2 bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700 text-[10px] font-black rounded-xl transition-all ml-4 shrink-0 flex items-center gap-2">
+                    <span>🔙 KEMBALI</span>
+                </button>
             </div>
         </div>
-        <div id="library-container" class="flex flex-col gap-4">
-            <div class="text-center py-24 glass rounded-[3rem] w-full">
+
+        <div id="library-container" class="flex flex-col gap-3">
+            <div class="text-center py-24 glass rounded-[3rem]">
                 <div class="inline-block animate-spin rounded-full h-10 w-10 border-t-4 border-blue-500 mb-6"></div>
-                <p class="text-slate-500 dark:text-slate-400 font-bold tracking-widest text-xs uppercase animate-pulse">Syncing Database...</p>
+                <p class="text-slate-500 dark:text-slate-400 font-bold tracking-widest text-xs uppercase animate-pulse">Memuat Struktur Cloud...</p>
             </div>
         </div>
     </div>
 
-    <div id="previewModal" class="hidden fixed inset-0 z-[120] flex items-center justify-center bg-slate-950/90 backdrop-blur-md p-4 animate-fade-in">
-        <div class="bg-white dark:bg-slate-900 w-full max-w-5xl h-[85vh] rounded-[2.5rem] flex flex-col overflow-hidden border border-slate-200 dark:border-slate-800 relative">
+    <div id="previewModal" class="hidden fixed inset-0 z-[120] flex items-center justify-center bg-slate-950/90 backdrop-blur-md p-4">
+        <div class="bg-white dark:bg-slate-900 w-full max-w-5xl h-[85vh] rounded-[2.5rem] flex flex-col overflow-hidden border border-slate-200 dark:border-slate-800">
             <div class="p-5 flex justify-between items-center border-b border-slate-100 dark:border-white/5 bg-slate-50 dark:bg-slate-950/20">
-                <h3 id="previewTitle" class="text-xs font-black uppercase tracking-wider truncate max-w-md text-slate-800 dark:text-white">Preview Dokumen</h3>
-                <button onclick="closePreview()" class="p-2 rounded-xl bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white text-xs font-bold transition-all">TUTUP ✕</button>
+                <h3 id="previewTitle" class="text-xs font-black uppercase tracking-wider truncate max-w-md">Preview Dokumen</h3>
+                <button onclick="closePreview()" class="px-4 py-2 rounded-xl bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white text-[10px] font-bold transition-all tracking-widest">TUTUP ✕</button>
             </div>
             <div class="flex-1 bg-slate-100 dark:bg-slate-950/40 relative">
-                <iframe id="previewFrame" src="" class="w-full h-full border-0" allow="autoplay"></iframe>
+                <iframe id="previewFrame" src="" class="w-full h-full border-0"></iframe>
             </div>
         </div>
     </div>
 
     <div id="uploadModal" class="hidden fixed inset-0 z-[110] flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4">
-        <div class="bg-white dark:bg-slate-800 w-full max-w-md p-10 rounded-[3rem] shadow-2xl relative border border-slate-200 dark:border-slate-700">
-            <h2 class="text-xl font-extrabold mb-8 flex items-center text-slate-800 dark:text-white"><span class="mr-4 p-3 bg-blue-500/10 rounded-2xl">📤</span> Upload Baru</h2>
+        <div class="bg-white dark:bg-slate-800 w-full max-w-md p-10 rounded-[3rem] shadow-2xl border border-slate-200 dark:border-slate-700">
+            <h2 class="text-xl font-extrabold mb-6 flex items-center text-slate-800 dark:text-white"><span class="mr-4 p-3 bg-emerald-500/10 rounded-2xl">📤</span> Upload File</h2>
+            <p class="text-[10px] font-bold text-slate-500 mb-4 uppercase tracking-widest">Target: <span id="lblTargetUpload" class="text-emerald-500"></span></p>
             <div class="space-y-5">
-                <select id="targetFolder" class="w-full bg-slate-100 dark:bg-slate-900 p-4 rounded-2xl outline-none border border-slate-200 dark:transparent focus:border-blue-500 transition-all text-sm font-bold text-slate-800 dark:text-white"></select>
-                <input type="file" id="fileInput" class="w-full text-xs text-slate-500 file:mr-4 file:py-3 file:px-6 file:rounded-xl file:border-0 file:bg-blue-600 file:text-white hover:file:bg-blue-700 font-bold">
-                <input type="text" id="newName" placeholder="Nama Dokumen" class="w-full bg-slate-100 dark:bg-slate-900 p-4 rounded-2xl outline-none border border-slate-200 dark:transparent focus:border-blue-500 text-sm font-bold text-slate-800 dark:text-white">
+                <input type="file" id="fileInput" class="w-full text-xs text-slate-500 file:mr-4 file:py-3 file:px-6 file:rounded-xl file:border-0 file:bg-emerald-600 file:text-white hover:file:bg-emerald-700 font-bold">
+                <input type="text" id="newName" placeholder="Nama Dokumen (Opsional)" class="w-full bg-slate-100 dark:bg-slate-900 p-4 rounded-2xl outline-none border border-slate-200 dark:border-transparent focus:border-emerald-500 text-sm font-bold">
                 <div class="flex gap-4 pt-6">
-                    <button onclick="closeUpload()" class="flex-1 py-4 rounded-2xl font-black bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-white text-[10px] tracking-widest hover:bg-slate-200 dark:hover:bg-slate-600 transition-all uppercase">Batal</button>
-                    <button onclick="prosesUpload()" id="btnDoUpload" class="flex-1 py-4 rounded-2xl font-black bg-blue-600 text-white text-[10px] uppercase tracking-widest shadow-lg active:scale-95 transition-all">Mulai Upload</button>
+                    <button onclick="closeModal('uploadModal')" class="flex-1 py-4 rounded-2xl font-black bg-slate-100 dark:bg-slate-700 text-[10px] uppercase">Batal</button>
+                    <button onclick="prosesUpload()" id="btnDoUpload" class="flex-1 py-4 rounded-2xl font-black bg-emerald-600 text-white text-[10px] uppercase shadow-lg">Mulai Upload</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="folderModal" class="hidden fixed inset-0 z-[110] flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4">
+        <div class="bg-white dark:bg-slate-800 w-full max-w-md p-10 rounded-[3rem] shadow-2xl border border-slate-200 dark:border-slate-700">
+            <h2 class="text-xl font-extrabold mb-6 flex items-center text-slate-800 dark:text-white"><span class="mr-4 p-3 bg-blue-500/10 rounded-2xl">📁</span> Folder Baru</h2>
+            <p class="text-[10px] font-bold text-slate-500 mb-4 uppercase tracking-widest">Dibuat di: <span id="lblTargetFolder" class="text-blue-500"></span></p>
+            <div class="space-y-5">
+                <input type="text" id="newFolderName" placeholder="Nama Folder Baru" class="w-full bg-slate-100 dark:bg-slate-900 p-4 rounded-2xl outline-none border border-slate-200 dark:border-transparent focus:border-blue-500 text-sm font-bold">
+                <div class="flex gap-4 pt-6">
+                    <button onclick="closeModal('folderModal')" class="flex-1 py-4 rounded-2xl font-black bg-slate-100 dark:bg-slate-700 text-[10px] uppercase">Batal</button>
+                    <button onclick="prosesCreateFolder()" id="btnDoCreateFolder" class="flex-1 py-4 rounded-2xl font-black bg-blue-600 text-white text-[10px] uppercase shadow-lg">Buat Folder</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycbzMxktvXJROTUfbkns6c5aS8549xesIwwYYNEi8Or77Vc_YyqfwuvB1Jougz_2gj3x5/exec"; 
-        let LIBRARY_DATA = [];
-        let CURRENT_SORT_ORDER = 'ASC'; 
-        let ACTIVE_CATEGORY = 'ALL';
+        const API_URL = "https://script.google.com/macros/s/AKfycbxUORqyVI0wvP6cNizeYckYn1ZtW-iQAPaQF9Voz60WKfHTTZPh9MEP7VQUojXwJXY3/exec";
+        
+        let RAW_TREE_NODE = null; 
+        let BREADCRUMB_PATH = []; 
+        let CURRENT_SORT_ORDER = 'ASC';
+        let VIEW_MODE = 'FOLDER'; // Mode: 'FOLDER' atau 'ALL'
 
+        // --- ANIMASI COUNTER ---
         function animateValue(obj, start, end, duration) {
             let startTimestamp = null;
             const step = (timestamp) => {
                 if (!startTimestamp) startTimestamp = timestamp;
                 const progress = Math.min((timestamp - startTimestamp) / duration, 1);
                 obj.innerHTML = Math.floor(progress * (end - start) + start);
-                if (progress < 1) {
-                    window.requestAnimationFrame(step);
-                }
+                if (progress < 1) window.requestAnimationFrame(step);
             };
             window.requestAnimationFrame(step);
         }
@@ -256,16 +328,11 @@
             });
         }
 
-        function toggleTheme() { 
+        // --- SISTEM TEMA & LOGIN ---
+        function toggleTheme() {
             const html = document.documentElement;
-            const body = document.body;
-            if (html.classList.contains('dark')) {
-                html.classList.replace('dark', 'light');
-                body.classList.replace('dark', 'light');
-            } else {
-                html.classList.replace('light', 'dark');
-                body.classList.replace('dark', 'dark');
-            }
+            html.classList.toggle('dark');
+            html.classList.toggle('light');
         }
 
         function handleLogin() {
@@ -292,52 +359,121 @@
             location.reload();
         }
 
-        window.onload = () => {
-            if(sessionStorage.getItem("isLoggedInAres") === "true") showApp();
-        }
+        window.onload = () => { if(sessionStorage.getItem("isLoggedInAres") === "true") showApp(); }
 
+        // --- FETCH DATA (TREE STRUCTURE) ---
         async function fetchData() {
             try {
                 const res = await fetch(API_URL);
-                LIBRARY_DATA = await res.json();
-                renderLibrary(LIBRARY_DATA);
-                renderFolderChips();
-                updateLibraryInfo();
+                const data = await res.json();
                 
-                const now = new Date();
-                document.getElementById('sync-time').innerText = now.toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit', second:'2-digit'});
-                document.getElementById('cloud-status').innerHTML = `<p class="text-[8px] font-black text-blue-500 uppercase tracking-tighter">● Cloud Connected</p>`;
-            } catch (e) { 
-                document.getElementById('library-container').innerHTML = "<div class='w-full p-10 text-center text-red-500 font-bold glass'>⚠️ Gagal terhubung ke Cloud Storage.</div>";
-                document.getElementById('cloud-status').innerHTML = `<p class="text-[8px] font-black text-red-500 uppercase tracking-tighter">● Offline</p>`;
+                RAW_TREE_NODE = data; 
+                
+                if(BREADCRUMB_PATH.length === 0) {
+                    BREADCRUMB_PATH = [RAW_TREE_NODE]; 
+                } else {
+                    refreshCurrentPath(); 
+                }
+
+                renderCurrentView();
+                updateDashboardStats(RAW_TREE_NODE);
+                
+                document.getElementById('sync-time').innerText = new Date().toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'});
+                document.getElementById('cloud-status').innerHTML = `<p class="text-[8px] font-black text-blue-500 uppercase">● Cloud Connected</p>`;
+            } catch (e) {
+                document.getElementById('library-container').innerHTML = "<div class='p-10 text-center text-red-500 font-bold glass rounded-3xl'>⚠️ Gagal terhubung ke Cloud Storage.</div>";
             }
         }
 
-        function updateLibraryInfo() {
-            let allFilesGlobal = [];
-            let categoryStats = [];
+        // --- BREADCRUMB, NAVIGATION & VIEW LOGIC ---
+        function getCurrentNode() { return BREADCRUMB_PATH[BREADCRUMB_PATH.length - 1]; }
 
-            LIBRARY_DATA.forEach(folder => {
-                categoryStats.push({ name: folder.folderName, count: folder.files.length });
-                folder.files.forEach(file => {
-                    allFilesGlobal.push({ ...file, folderName: folder.folderName });
-                });
+        function toggleViewMode() {
+            VIEW_MODE = (VIEW_MODE === 'FOLDER') ? 'ALL' : 'FOLDER';
+            const btn = document.getElementById('btnViewMode');
+            if (VIEW_MODE === 'ALL') {
+                btn.innerHTML = '📁 MODE FOLDER';
+                btn.classList.replace('bg-blue-600', 'bg-emerald-600');
+                btn.classList.replace('hover:bg-blue-500', 'hover:bg-emerald-500');
+            } else {
+                btn.innerHTML = '📄 SEMUA DOKUMEN';
+                btn.classList.replace('bg-emerald-600', 'bg-blue-600');
+                btn.classList.replace('hover:bg-emerald-500', 'hover:bg-blue-500');
+            }
+            document.getElementById('searchInput').value = "";
+            renderCurrentView();
+        }
+
+        function enterFolder(targetFolderId) {
+            if (VIEW_MODE === 'ALL') return; // Folder dinonaktifkan kliknya di mode ALL
+            const current = getCurrentNode();
+            const targetNode = current.subfolders.find(f => f.folderId === targetFolderId);
+            if (targetNode) {
+                BREADCRUMB_PATH.push(targetNode);
+                document.getElementById('searchInput').value = ""; 
+                renderCurrentView();
+            }
+        }
+
+        function navigateBreadcrumb(index) {
+            BREADCRUMB_PATH = BREADCRUMB_PATH.slice(0, index + 1);
+            document.getElementById('searchInput').value = "";
+            renderCurrentView();
+        }
+
+        function navigateBack() {
+            if (BREADCRUMB_PATH.length > 1) {
+                BREADCRUMB_PATH.pop();
+                document.getElementById('searchInput').value = "";
+                renderCurrentView();
+            }
+        }
+
+        function refreshCurrentPath() {
+            let freshNode = RAW_TREE_NODE;
+            let freshPath = [freshNode];
+            
+            for (let i = 1; i < BREADCRUMB_PATH.length; i++) {
+                let idToFind = BREADCRUMB_PATH[i].folderId;
+                let found = freshNode.subfolders.find(f => f.folderId === idToFind);
+                if(found) {
+                    freshNode = found; freshPath.push(freshNode);
+                } else { break; }
+            }
+            BREADCRUMB_PATH = freshPath;
+        }
+
+        // --- DASHBOARD STATS & RECENT FILES ---
+        function updateDashboardStats(node) {
+            let allFilesGlobal = [];
+            let rootCategories = [];
+            let fCount = 0;
+
+            node.subfolders.forEach(sub => {
+                let count = 0;
+                function countFiles(n) {
+                    count += n.files.length;
+                    n.subfolders.forEach(child => countFiles(child));
+                }
+                countFiles(sub);
+                rootCategories.push({ name: sub.folderName, count: count });
             });
 
-            const totalFiles = allFilesGlobal.length;
-            const totalCats = LIBRARY_DATA.length;
+            function traverse(n) {
+                fCount += n.subfolders.length;
+                n.files.forEach(f => { allFilesGlobal.push({ ...f, folderName: n.folderName }); });
+                n.subfolders.forEach(child => traverse(child));
+            }
+            traverse(node);
 
-            const fileStatEl = document.getElementById('stat-total-files');
-            const catStatEl = document.getElementById('stat-total-folders');
-            if(fileStatEl) fileStatEl.setAttribute('data-target', totalFiles);
-            if(catStatEl) catStatEl.setAttribute('data-target', totalCats);
-            
+            document.getElementById('stat-total-files').setAttribute('data-target', allFilesGlobal.length);
+            document.getElementById('stat-total-folders').setAttribute('data-target', fCount);
             triggerStatsAnimation();
 
             const statsBarContainer = document.getElementById('category-stats-bars');
-            if (statsBarContainer && categoryStats.length > 0) {
-                const maxCount = Math.max(...categoryStats.map(c => c.count), 1);
-                statsBarContainer.innerHTML = categoryStats.map(cat => `
+            if (rootCategories.length > 0) {
+                const maxCount = Math.max(...rootCategories.map(c => c.count), 1);
+                statsBarContainer.innerHTML = rootCategories.map(cat => `
                     <div class="space-y-1">
                         <div class="flex justify-between text-[8px] font-bold uppercase tracking-widest opacity-70">
                             <span>${cat.name}</span>
@@ -348,7 +484,7 @@
                         </div>
                     </div>
                 `).join('');
-            }
+            } else { statsBarContainer.innerHTML = `<p class="text-xs opacity-50">Belum ada data.</p>`; }
 
             const sortedRecent = [...allFilesGlobal].sort((a, b) => {
                 const dateA = a.date ? new Date(a.date) : new Date(0);
@@ -357,317 +493,286 @@
             }).slice(0, 5);
 
             const recentList = document.getElementById('recent-files-list');
-            if(recentList) {
-                if(sortedRecent.length === 0) {
-                    recentList.innerHTML = `<li class="text-[10px] font-bold opacity-40 text-center">No documents found.</li>`;
-                    return;
-                }
-
-                recentList.innerHTML = sortedRecent.map(f => {
-                    const uploadDate = f.date ? new Date(f.date) : new Date();
-                    const dStr = uploadDate.toLocaleDateString('id-ID', { day: '2-digit', month: 'short' });
-                    const tStr = uploadDate.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
-
-                    return `
-                    <li class="flex items-center justify-between group">
-                        <div class="flex-1 min-w-0 pr-4">
-                            <p class="text-[10px] font-black truncate text-slate-700 dark:text-slate-200 group-hover:text-blue-500 transition-colors">${f.name}</p>
-                            <div class="flex items-center gap-2 mt-0.5">
-                                <span class="text-[7px] font-bold text-blue-500 uppercase">${f.folderName}</span>
-                                <span class="text-[7px] opacity-40 font-bold uppercase">${dStr} • ${tStr}</span>
-                            </div>
-                        </div>
-                        <button onclick="openPreview('${f.url}', '${f.name.replace(/'/g, "\\'")}')" class="text-[8px] font-black bg-blue-500/10 text-blue-600 px-2 py-1.5 rounded-lg whitespace-nowrap hover:bg-blue-600 hover:text-white transition-all">
-                            PREVIEW ➜
-                        </button>
-                    </li>`;
-                }).join('');
-            }
-        }
-
-        function renderFolderChips() {
-            const container = document.getElementById('folder-chips');
-            if(!container) return;
-            container.innerHTML = `<button data-category="ALL" onclick="filterFolder('ALL')" class="folder-btn px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-wider transition-all bg-blue-600 text-white shadow-md shrink-0">📁 ALL</button>`;
-            LIBRARY_DATA.forEach(f => {
-                container.innerHTML += `<button data-category="${f.folderName}" onclick="filterFolder('${f.folderName}')" class="folder-btn px-4 py-2 rounded-xl text-[10px] font-black uppercase transition-all glass text-slate-600 dark:text-slate-400 hover:text-blue-500 hover:bg-blue-500/10 shrink-0">${f.folderName}</button>`;
-            });
-        }
-
-        function renderLibrary(data) {
-            const container = document.getElementById('library-container');
-            if(!container) return;
-            container.innerHTML = "";
-            
-            let flattenedFiles = [];
-            data.forEach(folder => {
-                folder.files.forEach(file => {
-                    flattenedFiles.push({
-                        ...file,
-                        folderName: folder.folderName
-                    });
-                });
-            });
-
-            flattenedFiles.sort((a, b) => {
-                if (CURRENT_SORT_ORDER === 'ASC') {
-                    return a.name.localeCompare(b.name);
-                } else {
-                    return b.name.localeCompare(a.name);
-                }
-            });
-
-            if (flattenedFiles.length === 0) {
-                container.innerHTML = "<div class='text-center py-10 opacity-50 font-bold text-xs uppercase tracking-widest'>Tidak Ada File</div>";
+            if(sortedRecent.length === 0) {
+                recentList.innerHTML = `<li class="text-[10px] font-bold opacity-40 text-center py-4">Tidak ada file.</li>`;
                 return;
             }
 
-            flattenedFiles.forEach(file => {
-                const nameLower = file.name.toLowerCase();
-                let typeIcon = '📄';
-                let typeText = 'DOCUMENT';
+            recentList.innerHTML = sortedRecent.map(f => {
+                const uploadDate = f.date ? new Date(f.date) : new Date();
+                const dStr = uploadDate.toLocaleDateString('id-ID', { day: '2-digit', month: 'short' });
+                return `
+                <li class="flex items-center justify-between group cursor-pointer glass p-2 rounded-xl border border-transparent hover:border-blue-500/30 transition-all" onclick="openPreview('${f.url}', '${f.name.replace(/'/g, "\\'")}')">
+                    <div class="flex-1 min-w-0 pr-4">
+                        <p class="text-[10px] font-black truncate text-slate-700 dark:text-slate-200 group-hover:text-blue-500 transition-colors">${f.name}</p>
+                        <div class="flex items-center gap-2 mt-0.5">
+                            <span class="text-[7px] font-bold text-blue-500 uppercase">${f.folderName}</span>
+                            <span class="text-[7px] opacity-40 font-bold uppercase">• ${dStr}</span>
+                        </div>
+                    </div>
+                    <span class="text-[14px] opacity-30 group-hover:opacity-100 transition-opacity pr-2">👁️</span>
+                </li>`;
+            }).join('');
+        }
+
+        // --- GENERATOR UI LIST DETAIL ---
+        function generateFolderHTML(folder) {
+            return `
+            <div class="search-item flex flex-col sm:flex-row sm:items-center justify-between p-4 glass glass-glow rounded-2xl group cursor-pointer border border-transparent hover:border-blue-500/30 transition-all gap-4 card-animate" data-name="${folder.folderName.toLowerCase()}" onclick="enterFolder('${folder.folderId}')">
+                <div class="flex items-center gap-4 min-w-0 flex-1">
+                    <div class="w-12 h-12 flex-shrink-0 flex items-center justify-center bg-blue-100 dark:bg-blue-900/40 rounded-xl text-xl group-hover:scale-110 transition-transform shadow-inner">📁</div>
+                    <div class="min-w-0 flex-1">
+                        <h3 class="font-black text-sm text-slate-800 dark:text-white truncate group-hover:text-blue-500 transition-colors">${folder.folderName}</h3>
+                        <p class="text-[9px] font-bold text-slate-500 uppercase mt-1">${folder.files.length} File | ${folder.subfolders.length} Subfolder</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3 justify-end border-t sm:border-t-0 border-slate-200/50 dark:border-white/5 pt-3 sm:pt-0">
+                    <button onclick="hapusFolder(event, '${folder.folderId}')" class="p-2.5 text-slate-400 hover:text-red-500 bg-slate-50 dark:bg-slate-800/50 hover:bg-red-500/10 rounded-xl transition-all shadow-sm" title="Hapus Folder">🗑️</button>
+                    <span class="text-slate-300 dark:text-slate-600 font-black ml-2 sm:block hidden">❯</span>
+                </div>
+            </div>`;
+        }
+
+        function generateFileHTML(file, locationText) {
+            const nameLower = file.name.toLowerCase();
+            let typeIcon = '📄'; let typeText = 'DOCUMENT';
+            if (nameLower.endsWith('.pdf')) { typeIcon = '📕'; typeText = 'PDF'; }
+            else if (nameLower.endsWith('.doc') || nameLower.endsWith('.docx')) { typeIcon = '📘'; typeText = 'WORD'; }
+            else if (nameLower.endsWith('.png') || nameLower.endsWith('.jpg') || nameLower.endsWith('.jpeg')) { typeIcon = '🖼️'; typeText = 'IMAGE'; }
+            else if (nameLower.endsWith('.mp4') || nameLower.endsWith('.mkv') || nameLower.endsWith('.avi')) { typeIcon = '🎬'; typeText = 'VIDEO'; }
+
+            const uploadDate = file.date ? new Date(file.date) : new Date();
+            const dStr = uploadDate.toLocaleDateString('id-ID', { day: '2-digit', month: 'short' });
+
+            return `
+            <div class="search-item flex flex-col sm:flex-row sm:items-center justify-between p-4 glass glass-glow rounded-2xl group border border-transparent hover:border-emerald-500/30 transition-all gap-4 card-animate" data-name="${nameLower}">
+                <div class="flex items-center gap-4 min-w-0 flex-1">
+                    <div class="w-12 h-12 flex-shrink-0 flex items-center justify-center bg-slate-100 dark:bg-slate-800 rounded-xl text-xl group-hover:rotate-6 transition-transform shadow-inner">${typeIcon}</div>
+                    <div class="min-w-0 flex-1">
+                        <h3 class="font-bold text-xs text-slate-800 dark:text-slate-100 truncate mb-1" title="${file.name}">${file.name}</h3>
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="text-[7px] font-black text-slate-600 dark:text-slate-300 bg-slate-200 dark:bg-slate-700 px-1.5 py-0.5 rounded uppercase">${typeText}</span>
+                            <span class="text-[8px] font-bold text-blue-500 uppercase truncate max-w-[200px]">${locationText}</span>
+                            <span class="text-[8px] font-bold text-slate-400 opacity-60">• ${dStr}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2 justify-end border-t sm:border-t-0 border-slate-200/50 dark:border-white/5 pt-3 sm:pt-0">
+                    <button onclick="openPreview('${file.url}', '${file.name.replace(/'/g, "\\'")}')" class="px-4 py-2.5 text-[9px] font-black bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-xl hover:bg-emerald-600 hover:text-white transition-all flex items-center shadow-sm">
+                        👁️ PREVIEW
+                    </button>
+                    <a href="${file.url}" target="_blank" class="px-4 py-2.5 text-[9px] font-black bg-blue-500/10 text-blue-600 dark:text-blue-400 rounded-xl hover:bg-blue-600 hover:text-white transition-all shadow-sm">
+                        VIEW ➜
+                    </a>
+                    <button onclick="hapusFile('${file.id}')" class="p-2.5 text-slate-400 hover:text-red-500 bg-slate-50 dark:bg-slate-800/50 hover:bg-red-500/10 rounded-xl transition-all ml-1 shadow-sm" title="Hapus File">🗑️</button>
+                </div>
+            </div>`;
+        }
+
+        // --- RENDER CURRENT VIEW ---
+        function renderCurrentView() {
+            renderBreadcrumbUI();
+            const container = document.getElementById('library-container');
+            container.innerHTML = "";
+            let htmlArr = [];
+
+            if (VIEW_MODE === 'ALL') {
+                // TAMPILAN SEMUA DOKUMEN (FLAT LIST)
+                let allFlattened = [];
+                function extractFiles(node, pathString) {
+                    node.files.forEach(f => { allFlattened.push({ ...f, fullPath: pathString }); });
+                    node.subfolders.forEach(sub => { extractFiles(sub, pathString + " / " + sub.folderName); });
+                }
+                extractFiles(RAW_TREE_NODE, RAW_TREE_NODE.folderName);
+
+                allFlattened.sort((a,b) => CURRENT_SORT_ORDER === 'ASC' ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name));
+
+                if (allFlattened.length === 0) {
+                    container.innerHTML = "<div class='text-center py-10 opacity-50 font-bold text-xs uppercase tracking-widest glass rounded-3xl'>Tidak Ada Dokumen</div>";
+                    return;
+                }
+                allFlattened.forEach(file => { htmlArr.push(generateFileHTML(file, file.fullPath)); });
+
+            } else {
+                // TAMPILAN FOLDER (HIERARKI)
+                const current = getCurrentNode();
+                let foldersToRender = [...current.subfolders];
+                let filesToRender = [...current.files];
+
+                foldersToRender.sort((a,b) => CURRENT_SORT_ORDER === 'ASC' ? a.folderName.localeCompare(b.folderName) : b.folderName.localeCompare(a.folderName));
+                filesToRender.sort((a,b) => CURRENT_SORT_ORDER === 'ASC' ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name));
+
+                if (foldersToRender.length === 0 && filesToRender.length === 0) {
+                    container.innerHTML = "<div class='text-center py-10 opacity-50 font-bold text-xs uppercase tracking-widest glass rounded-3xl'>Folder Kosong</div>";
+                    return;
+                }
+
+                foldersToRender.forEach(folder => { htmlArr.push(generateFolderHTML(folder)); });
+                filesToRender.forEach(file => { htmlArr.push(generateFileHTML(file, current.folderName)); });
+            }
+
+            container.innerHTML = htmlArr.join('');
+            searchLocal(); 
+        }
+
+        function renderBreadcrumbUI() {
+            const container = document.getElementById('breadcrumb-container');
+            const btnBack = document.getElementById('btnBack');
+
+            if (VIEW_MODE === 'ALL') {
+                container.innerHTML = `<span class="text-emerald-500">Melihat Keseluruhan Dokumen Sistem</span>`;
+                btnBack.classList.add('hidden');
+                return;
+            }
+
+            let htmlArr = [];
+            BREADCRUMB_PATH.forEach((node, index) => {
+                const isLast = index === BREADCRUMB_PATH.length - 1;
+                const activeClass = isLast ? "text-blue-600 dark:text-blue-400" : "text-slate-400 hover:text-blue-500 cursor-pointer transition-colors hover:underline";
                 
-                if (nameLower.endsWith('.pdf')) { typeIcon = '📕'; typeText = 'PDF'; }
-                else if (nameLower.endsWith('.doc') || nameLower.endsWith('.docx')) { typeIcon = '📘'; typeText = 'WORD'; }
-                else if (nameLower.endsWith('.png') || nameLower.endsWith('.jpg') || nameLower.endsWith('.jpeg')) { typeIcon = '🖼️'; typeText = 'IMAGE'; }
-                else if (nameLower.endsWith('.mp4') || nameLower.endsWith('.mkv') || nameLower.endsWith('.avi')) { typeIcon = '🎬'; typeText = 'VIDEO'; }
-
-                container.innerHTML += `
-                    <div class="doc-card card-animate group relative glass glass-glow p-4 rounded-2xl border border-transparent transition-all flex flex-col md:flex-row md:items-center justify-between gap-4 w-full" 
-                        data-folder="${file.folderName}" data-name="${nameLower}">
-                        
-                        <div class="flex items-center gap-4 flex-1 min-w-0">
-                            <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-900 group-hover:bg-blue-600 group-hover:rotate-6 transition-all duration-300 shadow-inner">
-                                <span class="text-xl">${typeIcon}</span>
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <div class="flex items-center gap-2 mb-1 flex-wrap">
-                                    <span class="text-[8px] font-black text-blue-600 dark:text-emerald-400 uppercase tracking-widest bg-blue-50 dark:bg-emerald-500/10 px-2 py-0.5 rounded-md leading-none">
-                                        ${file.folderName}
-                                    </span>
-                                    <span class="text-[8px] font-bold text-slate-400 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded-md">
-                                        ${typeText}
-                                    </span>
-                                </div>
-                                <h3 class="font-bold text-slate-900 dark:text-slate-100 text-xs truncate group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" title="${file.name}">
-                                    ${file.name}
-                                </h3>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center justify-between md:justify-end gap-3 border-t md:border-t-0 pt-3 md:pt-0 border-slate-100 dark:border-white/5">
-                            <span class="text-[8px] text-slate-400 font-bold uppercase tracking-tight md:hidden">Ares Archive</span>
-                            <div class="flex items-center gap-2">
-                                <button onclick="openPreview('${file.url}', '${file.name.replace(/'/g, "\\'")}')" class="text-[10px] font-black bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-3 py-2 rounded-xl hover:bg-emerald-600 hover:text-white transition-all flex items-center gap-1">
-                                    👁️ PREVIEW
-                                </button>
-                                <a href="${file.url}" target="_blank" class="text-[10px] font-black bg-blue-500/10 text-blue-600 dark:text-blue-400 px-3 py-2 rounded-xl hover:bg-blue-600 hover:text-white transition-all flex items-center gap-1">
-                                    VIEW ➜
-                                </a>
-                                <button onclick="hapusFile('${file.id}')" class="p-2 text-slate-400 hover:text-red-500 transition-all transform hover:scale-110">🗑️</button>
-                            </div>
-                        </div>
-                    </div>`;
+                htmlArr.push(`<span class="${activeClass}" onclick="${isLast ? '' : `MapsBreadcrumb(${index})`}">${node.folderName}</span>`);
+                if (!isLast) htmlArr.push(`<span class="text-slate-300 dark:text-slate-700 mx-1.5">/</span>`);
             });
+            container.innerHTML = htmlArr.join('');
 
-            applyVisualFilter();
+            if (BREADCRUMB_PATH.length > 1) btnBack.classList.remove('hidden');
+            else btnBack.classList.add('hidden');
+        }
+
+        // --- FITUR LOCAL SEARCH ---
+        function searchLocal() {
+            const val = document.getElementById('searchInput').value.toLowerCase();
+            document.querySelectorAll('.search-item').forEach(card => {
+                card.style.display = card.getAttribute('data-name').includes(val) ? "flex" : "none";
+            });
         }
 
         function toggleSortOrder() {
-            CURRENT_SORT_ORDER = (CURRENT_SORT_ORDER === 'ASC') ? 'DESC' : 'ASC';
-            document.getElementById('sortIcon').innerText = (CURRENT_SORT_ORDER === 'ASC') ? '🔽' : '🔼';
-            document.getElementById('btnSort').querySelector('span').innerText = (CURRENT_SORT_ORDER === 'ASC') ? 'Sort: A-Z' : 'Sort: Z-A';
-            renderLibrary(LIBRARY_DATA);
-            searchFile();
+            CURRENT_SORT_ORDER = CURRENT_SORT_ORDER === 'ASC' ? 'DESC' : 'ASC';
+            document.getElementById('sortText').innerText = CURRENT_SORT_ORDER === 'ASC' ? 'Sort: A-Z' : 'Sort: Z-A';
+            renderCurrentView();
         }
 
-        // ====================================================================
-        // PERBAIKAN UTAMA: Manajemen Ekstraksi & Pratinjau PDF / WORD Lebih Kuat
-        // ====================================================================
+        // --- PREVIEW HANDLING ---
         function openPreview(url, name) {
             let embedUrl = url;
             const nameLower = name.toLowerCase();
-
             try {
                 let fileId = "";
-                // Ekstraksi ID File dari URL Google Drive
-                if (url.includes('/file/d/')) {
-                    fileId = url.split('/file/d/')[1].split('/')[0];
-                } else if (url.includes('id=')) {
-                    const urlParams = new URLSearchParams(url.substring(url.indexOf('?')));
-                    fileId = urlParams.get('id');
-                }
+                if (url.includes('/file/d/')) fileId = url.split('/file/d/')[1].split('/')[0];
+                else if (url.includes('id=')) fileId = new URLSearchParams(url.substring(url.indexOf('?'))).get('id');
 
                 if (fileId) {
-                    // 1. JIKA FILE ADALAH MS WORD (.doc / .docx)
                     if (nameLower.endsWith('.doc') || nameLower.endsWith('.docx')) {
-                        let directDownloadUrl = `https://docs.google.com/uc?export=download&id=${fileId}`;
-                        embedUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(directDownloadUrl)}`;
-                    } 
-                    // 2. JIKA FILE ADALAH PDF ATAU VIDEO (.mp4, .mkv, .avi, dll)
-                    else if (
-                        nameLower.endsWith('.pdf') || 
-                        nameLower.endsWith('.mp4') || 
-                        nameLower.endsWith('.mkv') || 
-                        nameLower.endsWith('.avi') ||
-                        nameLower.endsWith('.mov')
-                    ) {
-                        // Menggunakan native preview Drive (Sangat stabil untuk PDF & Media Video)
+                        let downloadUrl = `https://docs.google.com/uc?export=download&id=${fileId}`;
+                        embedUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(downloadUrl)}`;
+                    } else if (nameLower.match(/\.(pdf|mp4|mkv|avi|mov)$/)) {
                         embedUrl = `https://drive.google.com/file/d/${fileId}/preview`;
-                    } 
-                    // 3. JIKA FILE ADALAH GAMBAR ATAU FORMAT LAINNYA
-                    else {
+                    } else {
                         embedUrl = `https://docs.google.com/viewer?srcid=${fileId}&embedded=true`;
                     }
                 }
-            } catch (err) {
-                console.error("Error parsing preview URL:", err);
-            }
+            } catch (e) {}
 
-            // Set src iframe ke URL yang sudah disesuaikan format filenya
             document.getElementById('previewTitle').innerText = `PREVIEW: ${name}`;
             document.getElementById('previewFrame').src = embedUrl;
             document.getElementById('previewModal').classList.remove('hidden');
         }
 
-        // Fungsi Tambahan untuk Menutup Modal Preview dan Me-reset iFrame src
         function closePreview() {
             document.getElementById('previewModal').classList.add('hidden');
             document.getElementById('previewFrame').src = "";
         }
 
-        function filterFolder(name) {
-            ACTIVE_CATEGORY = name;
-            applyVisualFilter();
+        // --- MODAL UTILITIES ---
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+
+        // --- ACTIONS (CREATE FOLDER, UPLOAD, DELETE) ---
+        function openCreateFolder() {
+            document.getElementById('lblTargetFolder').innerText = getCurrentNode().folderName;
+            document.getElementById('newFolderName').value = "";
+            document.getElementById('folderModal').classList.remove('hidden');
+        }
+
+        async function prosesCreateFolder() {
+            const name = document.getElementById('newFolderName').value.trim();
+            if(!name) return alert("Nama folder tidak boleh kosong!");
             
-            document.querySelectorAll('.folder-btn').forEach(btn => {
-                if (btn.getAttribute('data-category') === name) {
-                    btn.classList.add('bg-blue-600', 'text-white');
-                    btn.classList.remove('glass', 'text-slate-600', 'dark:text-slate-400');
-                } else {
-                    btn.classList.remove('bg-blue-600', 'text-white');
-                    btn.classList.add('glass', 'text-slate-600', 'dark:text-slate-400');
-                }
-            });
+            const btn = document.getElementById('btnDoCreateFolder');
+            btn.disabled = true; btn.innerText = "Membuat...";
+
+            try {
+                const res = await fetch(API_URL, {
+                    method: "POST",
+                    body: JSON.stringify({ action: "createFolder", parentId: getCurrentNode().folderId, folderName: name })
+                });
+                const responseText = await res.text();
+                if (responseText === "FolderCreated") {
+                    closeModal('folderModal'); fetchData(); 
+                } else { alert("Gagal: " + responseText); }
+            } catch (e) { alert("Error jaringan."); }
+            btn.disabled = false; btn.innerText = "Buat Folder";
         }
 
-        function searchFile() {
-            applyVisualFilter();
-        }
-
-        function applyVisualFilter() {
-            const searchInputEl = document.getElementById('searchInput');
-            const searchVal = searchInputEl ? searchInputEl.value.toLowerCase() : "";
-            const cards = document.querySelectorAll('.doc-card');
-
-            cards.forEach(card => {
-                const folderMatch = (ACTIVE_CATEGORY === 'ALL' || card.getAttribute('data-folder') === ACTIVE_CATEGORY);
-                const nameMatch = card.getAttribute('data-name').includes(searchVal);
-
-                if (folderMatch && nameMatch) {
-                    card.classList.remove('hidden');
-                } else {
-                    card.classList.add('hidden');
-                }
-            });
-        }
-
-        // ====================================================================
-        // TAMBAHAN FITUR: Fungsi Upload dan Hapus yang Sesuai dengan Apps Script-mu
-        // ====================================================================
         function openUpload() {
-            const select = document.getElementById('targetFolder');
-            if (!select) return;
-            if (LIBRARY_DATA.length === 0) {
-                alert("Data belum siap. Mohon tunggu koneksi cloud.");
-                return;
-            }
-            select.innerHTML = LIBRARY_DATA.map(f => `<option value="${f.folderId}">${f.folderName}</option>`).join('');
+            document.getElementById('lblTargetUpload').innerText = getCurrentNode().folderName;
+            document.getElementById('fileInput').value = "";
+            document.getElementById('newName').value = "";
             document.getElementById('uploadModal').classList.remove('hidden');
         }
 
-        function closeUpload() {
-            document.getElementById('uploadModal').classList.add('hidden');
-            document.getElementById('fileInput').value = "";
-            document.getElementById('newName').value = "";
-        }
+        async function prosesUpload() {
+            const file = document.getElementById('fileInput').files[0];
+            let newName = document.getElementById('newName').value.trim();
+            const btn = document.getElementById('btnDoUpload');
 
-        function prosesUpload() {
-            const folderId = document.getElementById('targetFolder').value;
-            const fileInput = document.getElementById('fileInput');
-            const newNameInput = document.getElementById('newName');
-            const btnUpload = document.getElementById('btnDoUpload');
+            if(!file) return alert("Pilih file terlebih dahulu!");
 
-            const file = fileInput.files[0];
-            let newName = newNameInput.value.trim();
+            const ext = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
+            if(newName && !newName.toLowerCase().endsWith(ext)) newName += ext;
+            if(!newName) newName = file.name;
 
-            if (!file || !newName) {
-                alert("Lengkapi file dan nama dokumen!");
-                return;
-            }
-
-            // Amankan ekstensi file asli agar tidak terduplikasi atau hilang
-            const extension = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
-            if (!newName.toLowerCase().endsWith(extension)) {
-                newName = newName + extension;
-            }
-
-            if(btnUpload) {
-                btnUpload.disabled = true;
-                btnUpload.innerText = "UPLOADING...";
-            }
+            btn.disabled = true; btn.innerText = "UPLOADING...";
 
             const reader = new FileReader();
             reader.readAsDataURL(file);
-            reader.onload = function (e) {
-                const payload = {
-                    action: "upload",
-                    folderId: folderId,
-                    newName: newName,
-                    fileData: e.target.result
-                };
-
-                fetch(API_URL, {
-                    method: "POST",
-                    body: JSON.stringify(payload)
-                })
-                .then(res => res.text())
-                .then(response => {
-                    if (response.trim() === "Success") {
-                        alert("File sukses terunggah!");
-                        closeUpload();
-                        fetchData();
-                    } else {
-                        alert("Respon server: " + response);
-                    }
-                })
-                .catch(err => alert("Koneksi gagal: " + err))
-                .finally(() => {
-                    if(btnUpload) {
-                        btnUpload.disabled = false;
-                        btnUpload.innerText = "MULAI UPLOAD";
-                    }
-                });
+            reader.onload = async () => {
+                try {
+                    const res = await fetch(API_URL, { 
+                        method: "POST", 
+                        body: JSON.stringify({ action: "upload", folderId: getCurrentNode().folderId, newName: newName, fileData: reader.result }) 
+                    });
+                    const responseText = await res.text();
+                    if(responseText === "Success") {
+                        closeModal('uploadModal'); fetchData();
+                    } else { alert("Gagal Server: " + responseText); }
+                } catch(e) { alert("Gagal koneksi!"); }
+                btn.disabled = false; btn.innerText = "Mulai Upload";
             };
         }
 
-        function hapusFile(idFile) {
-            if (!confirm("Apakah Anda yakin ingin menghapus file ini?")) return;
+        async function hapusFile(id) {
+            if(!confirm("Yakin ingin menghapus file ini?")) return;
+            try {
+                await fetch(API_URL, { method: "POST", body: JSON.stringify({action: "delete", fileId: id}) });
+                fetchData();
+            } catch(e) { alert("Gagal Hapus!"); }
+        }
 
-            fetch(API_URL, {
-                method: "POST",
-                body: JSON.stringify({ action: "delete", fileId: idFile })
-            })
-            .then(res => res.text())
-            .then(response => {
-                if (response.trim() === "Deleted") {
-                    alert("File berhasil dihapus!");
-                    fetchData();
-                } else {
-                    alert("Gagal menghapus: " + response);
-                }
-            })
-            .catch(err => alert("Kesalahan sistem: " + err));
+        async function hapusFolder(event, folderId) {
+            event.stopPropagation(); 
+            if(!confirm("Yakin ingin menghapus folder ini?\nCatatan: Folder HANYA BISA dihapus jika isinya kosong.")) return;
+            
+            try {
+                const res = await fetch(API_URL, { method: "POST", body: JSON.stringify({ action: "deleteFolder", folderId: folderId }) });
+                const responseText = await res.text();
+                
+                if (responseText === "FolderDeleted") fetchData();
+                else if (responseText === "ErrorNotEmpty") alert("DITOLAK: Folder tidak kosong! Harap hapus semua file dan sub-folder di dalamnya terlebih dahulu.");
+                else alert("Gagal Hapus: " + responseText);
+            } catch(e) { alert("Gagal koneksi!"); }
         }
     </script>
 </body>
