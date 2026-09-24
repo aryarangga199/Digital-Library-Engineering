@@ -40,14 +40,14 @@
                 <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-50 dark:bg-blue-900/20 text-google-blue rounded-2xl mb-4 text-3xl shadow-inner">
                     <i class="fa-brands fa-google-drive"></i>
                 </div>
-                <h1 class="text-xl font-semibold tracking-tight">Drive Library</h1>
+                <h1 class="text-xl font-semibold tracking-tight">Ares Engineering Digital Library</h1>
                 <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Masuk dengan akun terdaftar</p>
             </div>
 
             <div class="space-y-4 mb-6">
                 <div>
                     <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">Username</label>
-                    <input type="text" id="login-username" placeholder="Contoh: arya" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl px-4 py-3 text-sm outline-none focus:border-google-blue focus:bg-white dark:focus:bg-gray-900 transition">
+                    <input type="text" id="login-username" placeholder="Masukkan username..." class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl px-4 py-3 text-sm outline-none focus:border-google-blue focus:bg-white dark:focus:bg-gray-900 transition">
                 </div>
                 <div>
                     <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">Password</label>
@@ -59,11 +59,6 @@
             <button onclick="handleLogin()" class="w-full bg-google-blue hover:bg-google-hover text-white font-medium py-3 px-4 rounded-xl transition shadow-sm flex items-center justify-center gap-2">
                 <i class="fa-solid fa-right-to-bracket"></i> Masuk
             </button>
-
-            <div class="mt-6 text-center text-xs text-gray-400 leading-relaxed bg-gray-50 dark:bg-gray-800/50 p-3 rounded-xl border border-gray-100 dark:border-gray-800">
-                <span class="font-medium text-gray-500 dark:text-gray-300">Akun (Password: 123):</span><br>
-                <code class="text-google-blue font-semibold">arya</code> | <code class="text-google-blue font-semibold">sabaruddin</code> | <code class="text-google-blue font-semibold">halimah</code> | <code class="text-google-blue font-semibold">rangga</code> | <code class="text-google-blue font-semibold">malika</code>
-            </div>
         </div>
     </div>
 
@@ -72,7 +67,7 @@
             <div class="flex items-center gap-3 w-72">
                 <div class="flex items-center gap-2.5 cursor-pointer pl-1" onclick="loadDriveData('root')">
                     <i class="fa-brands fa-google-drive text-2xl text-google-blue"></i>
-                    <span class="text-lg font-medium tracking-tight">Drive Library</span>
+                    <span class="text-lg font-medium tracking-tight">Ares Engineering Digital Library</span>
                 </div>
             </div>
 
@@ -208,11 +203,10 @@
 
     <script>
         const USERS_DB = [
-            { username: 'arya', password: '123', name: 'Muhammad Arya', avatar: 'MA', role: 'Automation Lead' },
-            { username: 'sabaruddin', password: '123', name: 'Sabaruddin', avatar: 'S', role: 'Civil Engineer' },
-            { username: 'halimah', password: '123', name: 'Halimah', avatar: 'H', role: 'Staff Admin' },
-            { username: 'rangga', password: '123', name: 'Rangga Utama', avatar: 'RU', role: 'Operator' },
-            { username: 'malika', password: '123', name: 'Malika Zahra', avatar: 'MZ', role: 'Viewer' }
+            { username: 'aresmaintenance', password: 'aresmaintenance123', name: 'Ares Maintenance', avatar: 'AM', role: 'Maintenance Team' },
+            { username: 'aresproject', password: 'aresproject456', name: 'Ares Project', avatar: 'AP', role: 'Project Team' },
+            { username: 'aresautomation', password: 'aresautomation789', name: 'Ares Automation', avatar: 'AA', role: 'Automation Team' },
+            { username: 'aressparepart', password: 'aressparepart012', name: 'Ares Sparepart', avatar: 'AS', role: 'Sparepart Team' }
         ];
 
         const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw2h6pJdJmY7RmaLpiR859Izf3Q7KIE-xK9IBZPnl9M-kVvQPoyEdXQTZdvrQp4bK0/exec"; 
