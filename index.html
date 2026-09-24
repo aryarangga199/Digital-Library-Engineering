@@ -20,6 +20,16 @@
                             darkBorder: '#3c4043',
                             darkSurface: '#1e1f20'
                         }
+                    },
+                    animation: {
+                        'gradient-bg': 'gradientShift 15s ease infinite',
+                    },
+                    keyframes: {
+                        gradientShift: {
+                            '0%': { backgroundPosition: '0% 50%' },
+                            '50%': { backgroundPosition: '100% 50%' },
+                            '100%': { backgroundPosition: '0% 50%' },
+                        }
                     }
                 }
             }
@@ -30,12 +40,22 @@
         .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #dadce0; border-radius: 3px; }
         .dark .custom-scrollbar::-webkit-scrollbar-thumb { background: #444746; }
+        .animated-bg {
+            background-size: 200% 200%;
+            animation: gradientShift 12s ease infinite;
+        }
     </style>
 </head>
 <body class="bg-gray-50 dark:bg-google-dark text-gray-800 dark:text-gray-200 h-screen flex flex-col overflow-hidden select-none font-sans transition-colors duration-200">
 
-    <div id="login-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-100 dark:bg-[#121212]">
-        <div class="bg-white dark:bg-google-darkSurface p-8 rounded-3xl shadow-xl border border-gray-200/80 dark:border-google-darkBorder w-full max-w-sm backdrop-blur-xl">
+    <!-- Login Screen dengan Background Animasi & Tombol Mode Gelap/Terang -->
+    <div id="login-screen" class="fixed inset-0 z-50 flex items-center justify-center animated-bg bg-gradient-to-br from-blue-100 via-indigo-50 to-pink-100 dark:from-gray-950 dark:via-[#121212] dark:to-blue-950 transition-colors duration-500">
+        <!-- Tombol Mode Gelap di Halaman Login -->
+        <button onclick="toggleDarkMode()" class="absolute top-6 right-6 w-11 h-11 flex items-center justify-center rounded-full bg-white/80 dark:bg-google-darkSurface/80 backdrop-blur-md shadow-lg border border-gray-200/80 dark:border-google-darkBorder text-gray-700 dark:text-gray-200 hover:scale-105 transition" title="Mode Terang / Gelap">
+            <i id="login-theme-icon" class="fa-solid fa-moon text-base"></i>
+        </button>
+
+        <div class="bg-white/90 dark:bg-google-darkSurface/90 p-8 rounded-3xl shadow-2xl border border-gray-200/80 dark:border-google-darkBorder w-full max-w-sm backdrop-blur-xl transition-all duration-300">
             <div class="text-center mb-6">
                 <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-50 dark:bg-blue-900/20 text-google-blue rounded-2xl mb-4 text-3xl shadow-inner">
                     <i class="fa-brands fa-google-drive"></i>
@@ -56,12 +76,13 @@
                 <div id="login-error" class="text-xs text-red-500 font-medium hidden text-center"></div>
             </div>
 
-            <button onclick="handleLogin()" class="w-full bg-google-blue hover:bg-google-hover text-white font-medium py-3 px-4 rounded-xl transition shadow-sm flex items-center justify-center gap-2">
+            <button onclick="handleLogin()" class="w-full bg-google-blue hover:bg-google-hover text-white font-medium py-3 px-4 rounded-xl transition shadow-md hover:shadow-lg flex items-center justify-center gap-2">
                 <i class="fa-solid fa-right-to-bracket"></i> Masuk
             </button>
         </div>
     </div>
 
+    <!-- Main App Container -->
     <div id="app-container" class="hidden flex flex-col h-full w-full">
         <header class="flex items-center justify-between h-16 px-4 border-b border-gray-200 dark:border-google-darkBorder bg-white dark:bg-google-darkSurface shrink-0 shadow-xs z-20">
             <div class="flex items-center gap-3 w-72">
@@ -173,8 +194,9 @@
         </div>
     </div>
 
+    <!-- Modals -->
     <div id="preview-modal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4">
-        <div class="bg-white dark:bg-google-darkSurface rounded-3xl w-full max-w-4xl h-[85vh] flex flex-col overflow-hidden shadow-2xl border border-gray-200 dark:border-google-darkBorder animate-in fade-in zoom-in-95 duration-150">
+        <div class="bg-white dark:bg-google-darkSurface rounded-3xl w-full max-w-4xl h-[85vh] flex flex-col overflow-hidden shadow-2xl border border-gray-200 dark:border-google-darkBorder">
             <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-google-darkBorder bg-gray-50/50 dark:bg-google-darkSurface">
                 <h3 id="preview-title" class="font-semibold text-sm truncate">Nama File</h3>
                 <div class="flex items-center gap-2">
@@ -219,6 +241,14 @@
         let folderHistory = [{ id: 'root', name: 'Drive Utama Library' }];
 
         window.onload = function() {
+            if (localStorage.getItem('theme') === 'dark') {
+                document.documentElement.classList.add('dark');
+                updateThemeIcons(true);
+            } else {
+                document.documentElement.classList.remove('dark');
+                updateThemeIcons(false);
+            }
+
             const savedUser = localStorage.getItem('shared_drive_user');
             if (savedUser) {
                 currentUser = JSON.parse(savedUser);
@@ -254,11 +284,6 @@
             document.getElementById('current-user-avatar').innerText = currentUser.avatar;
             document.getElementById('current-user-name').innerText = currentUser.name;
 
-            if (localStorage.getItem('theme') === 'dark') {
-                document.documentElement.classList.add('dark');
-                document.getElementById('theme-icon').className = 'fa-solid fa-sun text-base';
-            }
-
             fetchRootFoldersForSidebar();
             loadDriveData('root', 'Drive Utama Library');
         }
@@ -266,7 +291,15 @@
         function toggleDarkMode() {
             const isDark = document.documentElement.classList.toggle('dark');
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            document.getElementById('theme-icon').className = isDark ? 'fa-solid fa-sun text-base' : 'fa-solid fa-moon text-base';
+            updateThemeIcons(isDark);
+        }
+
+        function updateThemeIcons(isDark) {
+            const iconClass = isDark ? 'fa-solid fa-sun text-base' : 'fa-solid fa-moon text-base';
+            const themeIcon = document.getElementById('theme-icon');
+            const loginThemeIcon = document.getElementById('login-theme-icon');
+            if (themeIcon) themeIcon.className = iconClass;
+            if (loginThemeIcon) loginThemeIcon.className = iconClass;
         }
 
         function setViewMode(mode) {
@@ -301,7 +334,7 @@
                 const activeClass = isActive 
                     ? "bg-blue-50 dark:bg-blue-900/30 text-google-blue dark:text-blue-400 font-semibold" 
                     : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800/60 font-medium";
-                
+            
                 return `
                     <a href="#" onclick="loadDriveData('${f.id}', '${f.name}')" class="flex items-center gap-3 px-4 py-2 rounded-full text-xs transition ${activeClass}">
                         <i class="fa-solid fa-folder text-google-blue w-4 text-center"></i>
